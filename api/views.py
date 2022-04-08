@@ -26,7 +26,7 @@ def getRoutes(request):
             'Endpoint':'/backend/id/update/',
             'method':'PUT',
             'body':{'body':""},
-            'description': 'Creates new note with data sent in put request '
+            'description': 'Creates an existing note with data sent in put request '
         },
         {
             'Endpoint':'/backend/id/delete/',
