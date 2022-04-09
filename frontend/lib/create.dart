@@ -19,7 +19,16 @@ class _CreatePageState extends State<CreatePage> {
       ),
       body: Column(
         children: [
-          TextField(controller: controller,)
+          TextField(
+            controller: controller,
+            maxLines: 10,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                widget.client.post(createUrl, body: {'body':controller.text});
+                Navigator.pop(context);
+              },
+              child: Text("Create Note"))
         ],
       ),
     );

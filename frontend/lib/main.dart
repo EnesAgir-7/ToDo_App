@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/create.dart';
+import 'package:frontend/update.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -74,7 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text(notes[index].note),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context)=>UpdatePage(client: client, id: notes[index].id, note: notes[index].note,)
+                  ));
+              },
               trailing: IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () =>_deleteNote(notes.[index].id),
