@@ -12,7 +12,7 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("create"),),
-      body: Center(),
+      body: Container(),
     );
   }
 }
