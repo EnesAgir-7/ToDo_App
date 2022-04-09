@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+
+import 'note.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,13 +35,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Client client = http.Client();
-  int _counter = 0;
+  List<Note> notes = [];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    _retrieveNotes();
+    super.initState();
   }
+
+  _retrieveNotes() async {
+    notes = [];
+
+    List response = json.decode((await client.get(retrieveUrl)).body);
+    response.forEach((element) {
+      notes.add(Note.fromMap(element));
+    });
+    setState(() {});
+  }
+
+  void _addNote() {}
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +61,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: <Widget>[Text("Note 1")],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _retrieveNotes();
+        },
+        child: ListView.builder(
+          itemCount: notes.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(notes[index].note),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _addNote,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
